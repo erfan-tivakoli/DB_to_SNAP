@@ -1,5 +1,6 @@
 from db_connector import DbConnection
 import snap
+from __future__ import division
 
 
 
@@ -18,11 +19,6 @@ def add_edge(Graph, src_id, dst_id):
     Graph.AddEdge(src_id, dst_id)
 
 
-Twitter = snap.TNEANet.New()
-"""
-:type Twitter: snap.TNEANet
-"""
-
 conn = DbConnection()
 cur = conn.get_cursor()
 query = """select max(ida) from links"""
@@ -34,25 +30,26 @@ max_idb = cur.fetchone()
 total_users = max(max_ida, max_idb)
 print("total user is %s and max_ida is %s and max_idb is %s" % (total_users, max_ida, max_idb))
 
+Twitter = snap.TNEANet.New()
+"""
+:type Twitter: snap.TNEANet
+"""
 
-# for i in range(1,1000):
-print('start fetching links')
-query = """select ida,idb from links where ida<10000"""
-cur.execute(query)
-print('query executed')
+i = 0
+chunk = 10000
+progress = (i/total_users)*100
+while i < total_users:
+    print('\r current progress is %.2f' % progress)
+    print('started fetching links from ida %s to %s' % (i, i+chunk))
+    query = """select ida,idb from links where (ida>= i and ida< i+chunk)"""
+    cur.execute(query)
+    i += chunk
 
-counter = 0
-for [ida, idb] in cur:
-    add_edge(Twitter, ida, idb)
-    counter += 1
-    print('\r counter is %d' %counter)
+    for [ida, idb] in cur:
+        add_edge(Twitter, ida, idb)
+    print('edges added to graph')
 
+print('saving the graph')
 FOut = snap.TFOut("test.graph")
 Twitter.Save(FOut)
 FOut.Flush()
-
-# for NI in Twitter.Nodes():
-#     print "node: %d, out-degree %d, in-degree %d" % ( NI.GetId(), NI.GetOutDeg(), NI.GetInDeg())
-#
-# for EI in Twitter.Edges():
-#     print "edge (%d, %d)" % (EI.GetSrcNId(), EI.GetDstNId())
