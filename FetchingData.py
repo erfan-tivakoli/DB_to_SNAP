@@ -1,6 +1,7 @@
+from __future__ import division
 from db_connector import DbConnection
 import snap
-from __future__ import division
+
 
 
 
