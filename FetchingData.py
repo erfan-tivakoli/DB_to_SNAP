@@ -38,7 +38,7 @@ Twitter = snap.TNEANet.New()
 
 i = 0
 chunk = 10000
-progress = (i/total_users)*100
+progress = (i/float(total_users))*100
 while i < total_users:
     print('\r current progress is %.2f' % progress)
     print('started fetching links from ida %s to %s' % (i, i+chunk))
