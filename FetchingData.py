@@ -32,12 +32,14 @@ query = """select max(idb) from links"""
 cur.execute(query)
 max_idb = cur.fetchone()
 total_users = max(max_ida, max_idb)
-print("total user is %d and max_ida is %d and max_idb is %d",(total_users, max_ida, max_idb))
+print("total user is %s and max_ida is %s and max_idb is %s" % (total_users, max_ida, max_idb))
 
 
 # for i in range(1,1000):
+print('start fetching links')
 query = """select ida,idb from links where ida<10000"""
 cur.execute(query)
+print('query executed')
 
 counter = 0
 for [ida, idb] in cur:
