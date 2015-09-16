@@ -52,7 +52,7 @@ while i < total_users:
         add_edge(Twitter, ida, idb)
     print('edges added to graph')
 
-    if i % 5000000 is 0:
+    if i % 1000000 is 0:
         print('saving the graph')
         FOut = snap.TFOut("test.graph")
         Twitter.Save(FOut)
