@@ -43,7 +43,7 @@ print("loaded")
 cur.close()
 cur = conn.get_cursor()
 
-i = 40000000
+i = 50000000
 chunk = 10000
 
 while i < total_users:
@@ -57,7 +57,7 @@ while i < total_users:
         add_edge(Twitter, ida, idb)
     print('edges added to graph')
 
-    if (i % 10000000 is 0) or i >= total_users:
+    if (i % 1000000 is 0) or i >= total_users:
         print('saving the graph')
         FOut = snap.TFOut("test.graph")
         Twitter.Save(FOut)
