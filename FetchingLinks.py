@@ -1,24 +1,26 @@
 from __future__ import division
 from db_connector import DbConnection
 import snap
+import sys
 
 
-
-
-def add_edge(Graph, src_id, dst_id):
+def add_edge(graph, src_id, dst_id):
     """
-    :type Graph : snap.PNEANet
-    :param Graph:
+    :type graph : snap.TNEANet
+    :param graph:
     :param src_id:
     :param dst_id:
     :return:
     """
-    if not Graph.IsNode(src_id):
-        Graph.AddNode(src_id)
-    if not Graph.IsNode(dst_id):
-        Graph.AddNode(dst_id)
-    Graph.AddEdge(src_id, dst_id)
-
+    if not graph.IsNode(src_id):
+        graph.AddNode(src_id)
+    if not graph.IsNode(dst_id):
+        graph.AddNode(dst_id)
+    try:
+        graph.AddEdge(src_id, dst_id)
+    except RuntimeError, e:
+        sys.stderr.write('problem in adding %d -> %d' % (src_id, dst_id))
+        sys.stderr.write(str(e))
 
 conn = DbConnection()
 cur = conn.get_cursor()
@@ -44,7 +46,7 @@ chunk = 10000
 while i < total_users:
     print('started fetching links from ida %s to %s' % (i, i+chunk))
     query = """select ida,idb from links where (ida>= %s and ida< %s)"""
-    cur.execute(query,(i, i+chunk))
+    cur.execute(query, (i, i+chunk))
     i += chunk
 
     print("started to add into graph")
@@ -57,4 +59,4 @@ while i < total_users:
         FOut = snap.TFOut("test.graph")
         Twitter.Save(FOut)
         FOut.Flush()
-    print('saved')
+        print('saved')

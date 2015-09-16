@@ -8,7 +8,7 @@ G = snap.TNEANet.Load(FIn)
 """
 print("loaded")
 
-Node = G.GetNI(50698488L)
+Node = G.GetNI("50698488")
 """
 :type Node:snap.TNEANetNodeI
 """
