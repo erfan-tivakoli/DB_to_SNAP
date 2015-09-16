@@ -40,9 +40,8 @@ cur = conn.get_cursor()
 
 i = 0
 chunk = 10000
-progress = (i/total_users)*100
+
 while i < total_users:
-    print('\r current progress is %.4f' % progress)
     print('started fetching links from ida %s to %s' % (i, i+chunk))
     query = """select ida,idb from links where (ida>= %s and ida< %s)"""
     cur.execute(query,(i, i+chunk))
@@ -53,7 +52,9 @@ while i < total_users:
         add_edge(Twitter, ida, idb)
     print('edges added to graph')
 
-print('saving the graph')
-FOut = snap.TFOut("test.graph")
-Twitter.Save(FOut)
-FOut.Flush()
+    if i % 5000000 is 0:
+        print('saving the graph')
+        FOut = snap.TFOut("test.graph")
+        Twitter.Save(FOut)
+        FOut.Flush()
+    print('saved')
