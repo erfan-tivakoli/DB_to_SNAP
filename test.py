@@ -9,8 +9,9 @@ G = snap.TNEANet.Load(FIn)
 """
 print("loaded")
 
-Node = G.GetNI(ctypes.c_int32(50698488))
+edge_number = G.GetEdges()
+node_number = G.GetNodes()
 """
 :type Node:snap.TNEANetNodeI
 """
-print("in degree is %s and out degree is %s" % (Node.GetInDeg(), Node.GetOutDeg()))
+print("%d edges and %d nodes" % (edge_number, node_number))
