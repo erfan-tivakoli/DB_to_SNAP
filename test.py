@@ -1,4 +1,5 @@
 import snap
+import ctypes
 
 
 FIn = snap.TFIn("test.graph")
@@ -8,7 +9,7 @@ G = snap.TNEANet.Load(FIn)
 """
 print("loaded")
 
-Node = G.GetNI(50698488)
+Node = G.GetNI(ctypes.c_int32(50698488))
 """
 :type Node:snap.TNEANetNodeI
 """
