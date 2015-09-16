@@ -1,13 +1,14 @@
 import snap
 
+
 FIn = snap.TFIn("test.graph")
 G = snap.TNEANet.Load(FIn)
-
 """
 :type G:snap.TNEANet
 """
+print("loaded")
 
-Node = G.GetNI(50698488)
+Node = G.GetNI(50698488L)
 """
 :type Node:snap.TNEANetNodeI
 """
