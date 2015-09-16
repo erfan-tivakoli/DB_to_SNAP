@@ -33,14 +33,17 @@ max_idb = cur.fetchone()[0]
 total_users = max(max_ida, max_idb)
 print("total user is %s and max_ida is %s and max_idb is %s" % (total_users, max_ida, max_idb))
 
-Twitter = snap.TNEANet.New()
+FIn = snap.TFIn("test.graph")
+Twitter = snap.TNEANet.Load(FIn)
+print("loaded")
+
 """
 :type Twitter: snap.TNEANet
 """
 cur.close()
 cur = conn.get_cursor()
 
-i = 0
+i = 24000000
 chunk = 10000
 
 while i < total_users:
@@ -54,7 +57,7 @@ while i < total_users:
         add_edge(Twitter, ida, idb)
     print('edges added to graph')
 
-    if i % 1000000 is 0:
+    if i % 20000000 is 0:
         print('saving the graph')
         FOut = snap.TFOut("test.graph")
         Twitter.Save(FOut)
