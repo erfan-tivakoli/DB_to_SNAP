@@ -21,13 +21,10 @@ def extract_tweets(thread_id, cur):
     cur.execute(query, (start_point_id, start_point_id + chunk_size - 1))
     print('thread %d has fetched data from %d to %d' % (thread_id, start_point_id, start_point_id + chunk_size -1))
     for [userid, tweettime] in cur:
-        print("userid is %d and tweettime is %d" %(userid, long(tweettime.strftime('%s'))))
-    for [userid, tweettime] in cur:
         threadLock.acquire()
         if Twitter.IsNode(userid):
             node_tweet_times = Twitter.GetStrAttrDatN(userid, "TweetsTime")
             Twitter.AddStrAttrDatN(userid, node_tweet_times+","+str(long(tweettime.strftime('%s'))), "TweetsTime")
-            print("user id %d tweettimes %d" % (userid, Twitter.GetStrAttrDatN(userid, "TweetsTime")))
             threadLock.release()
         else:
             threadLock.release()
