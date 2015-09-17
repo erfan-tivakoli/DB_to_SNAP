@@ -71,7 +71,7 @@ while start_point < 4382219473:
     start_point += chunk_size
 queueLock.release()
 
-for i in range(1, number_of_threads):
+for i in range(number_of_threads):
     threadID += 1
     thread = TweetsExtractor(threadID, conn.get_cursor())
     threads.append(thread)
