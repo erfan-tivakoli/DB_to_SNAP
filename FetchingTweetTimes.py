@@ -19,9 +19,8 @@ def extract_tweets(thread_id, cur):
 
     query = """select userid, tweettime from tweets where tweetid between %s and %s"""
     cur.execute(query, (start_point_id, start_point_id + chunk_size - 1))
-    print('thread %d has fetched data from %d to %d' % (thread_id, start_point_id, start_point_id + chunk_size -1))
     cur.fetchall()
-    print("what the hell is going wrong*******")
+    print('thread %d has fetched data from %d to %d' % (thread_id, start_point_id, start_point_id + chunk_size -1))
     for [userid, tweettime] in cur:
         print("userid is %d and tweettime is %d" %(userid, tweettime))
     # for [userid, tweettime] in cur:
@@ -73,7 +72,8 @@ queueLock.release()
 
 for i in range(number_of_threads):
     threadID += 1
-    thread = TweetsExtractor(threadID, conn.get_cursor())
+    cursor = conn.get_cursor()
+    thread = TweetsExtractor(threadID, cursor)
     threads.append(thread)
     print("thread %d was created" % threadID)
     thread.start()
