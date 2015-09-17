@@ -73,10 +73,17 @@ queueLock.release()
 for i in range(number_of_threads):
     threadID += 1
     cursor = conn.get_cursor()
+    query = """select userid, tweettime from tweets where tweetid between %s and %s"""
+    cursor.execute(query, (0, 0 + chunk_size - 1))
+    cursor.fetchall()
+    for [userid, tweettime] in cursor:
+        print("userid is %d and tweettime is %d" %(userid, tweettime))
     thread = TweetsExtractor(threadID, cursor)
     threads.append(thread)
     print("thread %d was created" % threadID)
-    thread.start()
+    # thread.start()
 
-for t in threads:
-    t.join()
+
+# for t in threads:
+#     t.join()
+
