@@ -43,7 +43,7 @@ print("loaded")
 cur.close()
 cur = conn.get_cursor()
 
-i = 52000000
+i = 56000000
 chunk = 10000
 
 while i < total_users:
