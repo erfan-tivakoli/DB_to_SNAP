@@ -29,14 +29,14 @@ def extract_tweets(thread_id, cur):
         else:
             threadLock.release()
             print("missing userid %d" % userid)
-        if start_point_id % 100000000 is 0:
-            print('saving the graph=========================')
-            threadLock.acquire()
-            fout = snap.TFOut("test-with-tweets.graph")
-            Twitter.Save(fout)
-            fout.Flush()
-            threadLock.release()
-            print('saved')
+    if start_point_id % 100000000 is 0 and (start_point_id != 0):
+        print('saving the graph=========================')
+        threadLock.acquire()
+        fout = snap.TFOut("test-with-tweets.graph")
+        Twitter.Save(fout)
+        fout.Flush()
+        threadLock.release()
+        print('saved')
 
 
 class TweetsExtractor(threading.Thread):
