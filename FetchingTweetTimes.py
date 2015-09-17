@@ -8,6 +8,7 @@ Twitter = snap.TNEANet.Load(FIn)
 """
 :type Twitter:snap.TNEANet
 """
+print("the graph was loaded")
 Twitter.AddStrAttrN("TweetsTime")
 
 
@@ -18,7 +19,7 @@ def extract_tweets(thread_id, start_id, size):
     cur.execute(query, (start_id, start_id + size - 1))
     print('\t[%d] query executed!' % start_id)
     cur.fetchall()
-    for userid,tweettime in cur:
+    for [userid, tweettime] in cur:
         if Twitter.IsNode(userid):
             node_tweet_times = Twitter.GetStrAttrDatN(userid, "TweetsTime")
             Twitter.AddStrAttrDatN(userid, node_tweet_times+","+tweettime, "TweetsTime")
