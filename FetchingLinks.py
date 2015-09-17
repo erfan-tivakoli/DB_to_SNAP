@@ -17,7 +17,8 @@ def add_edge(graph, src_id, dst_id):
     if not graph.IsNode(dst_id):
         graph.AddNode(dst_id)
     try:
-        graph.AddEdge(src_id, dst_id)
+        if not graph.IsEdge(src_id, dst_id):
+            graph.AddEdge(src_id, dst_id)
     except RuntimeError, e:
         sys.stderr.write('problem in adding %d -> %d' % (src_id, dst_id))
         sys.stderr.write(str(e))
@@ -43,7 +44,7 @@ print("loaded")
 cur.close()
 cur = conn.get_cursor()
 
-i = 56000000
+i = 52000000
 chunk = 10000
 
 while i < total_users:
