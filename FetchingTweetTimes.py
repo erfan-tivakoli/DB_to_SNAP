@@ -21,6 +21,7 @@ def extract_tweets(thread_id, start_id, size):
     cur.fetchall()
     for [userid, tweettime] in cur:
         if Twitter.IsNode(userid):
+            print("userid is %d" %userid)
             node_tweet_times = Twitter.GetStrAttrDatN(userid, "TweetsTime")
             Twitter.AddStrAttrDatN(userid, node_tweet_times+","+tweettime, "TweetsTime")
             print("user id %d tweettimes %d" % (userid, Twitter.GetStrAttrDatN(userid, "TweetsTime")))
