@@ -75,6 +75,7 @@ for i in range(number_of_threads):
     threadID += 1
     thread = TweetsExtractor(threadID, conn.get_cursor())
     threads.append(thread)
+    print("thread %d was created" % threadID)
     thread.start()
 
 for t in threads:
