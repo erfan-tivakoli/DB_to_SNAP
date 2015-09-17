@@ -10,4 +10,4 @@ query = """select userid, tweettime from tweets where tweetid between %s and %s"
 cursor.execute(query, (0, 0 + chunk_size - 1))
 
 for [userid, tweettime] in cursor:
-    print("userid is %d and tweettime is %d" %(userid, tweettime))
+    print("userid is %d and tweettime is %d" %(userid, long(tweettime.strftime('%s'))))
