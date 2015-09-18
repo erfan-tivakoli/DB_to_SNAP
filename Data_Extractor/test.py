@@ -1,7 +1,4 @@
-import snap
-import ctypes
-import Queue
-from db_connector import DbConnection
+from Data_Extractor.db_connector import DbConnection
 
 chunk_size = 100000
 conn = DbConnection()

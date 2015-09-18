@@ -1,7 +1,8 @@
 from __future__ import division
-from db_connector import DbConnection
+
 import snap
-import sys
+
+from Data_Extractor.db_connector import DbConnection
 
 
 def add_edge(graph, src_id, dst_id):
@@ -23,7 +24,7 @@ def add_edge(graph, src_id, dst_id):
         # sys.stderr.write('problem in adding %d -> %d' % (src_id, dst_id))
         # sys.stderr.write(str(e))
         pass
-    
+
 conn = DbConnection()
 cur = conn.get_cursor()
 query = """select max(ida) from links"""
