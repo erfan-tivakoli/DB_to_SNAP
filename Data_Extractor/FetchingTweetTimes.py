@@ -33,8 +33,9 @@ def extract_tweets(thread_id, cur):
             new_tweet_time = str(long(tweettime.strftime('%s')))
             if not (node_tweet_times.split(",")).__contains__(new_tweet_time):
                 Twitter.AddStrAttrDatN(userid, node_tweet_times+","+new_tweet_time, "TweetsTime")
-            else:
-                print("TwittTime %s is already in the list of userid %d , the startId was %d " % (new_tweet_time, userid, start_point_id))
+            # else:
+            #     # print("TwittTime %s is already in the list of userid %d , the startId was %d " % (new_tweet_time, userid, start_point_id))
+            #     pass
             threadLock.release()
         else:
             threadLock.release()
@@ -70,7 +71,7 @@ threadID = 0
 chunk_size = 1000000
 
 # start_point = 0
-start_point = 1100000000
+start_point = 1500000000
 queueLock.acquire()
 while start_point < 4382219473:
     start_points.put(start_point)
