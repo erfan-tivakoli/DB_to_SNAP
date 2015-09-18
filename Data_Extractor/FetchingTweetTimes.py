@@ -3,7 +3,7 @@ import Queue
 
 import snap
 
-from Data_Extractor.db_connector import DbConnection
+from db_connector import DbConnection
 
 
 FIn = snap.TFIn("test-with-tweets-new.graph")
