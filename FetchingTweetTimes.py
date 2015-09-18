@@ -28,11 +28,11 @@ def extract_tweets(thread_id, cur):
             threadLock.release()
         else:
             threadLock.release()
-            print("missing userid %d" % userid)
+            # print("missing userid %d" % userid)
     if start_point_id % 100000000 is 0 and (start_point_id != 0):
-        print('saving the graph=========================')
+        print('thread %d is saving the graph up to tweet_id %d=========================' % (start_point_id,thread_id))
         threadLock.acquire()
-        fout = snap.TFOut("test-with-tweets.graph")
+        fout = snap.TFOut("test-with-tweets-new.graph")
         Twitter.Save(fout)
         fout.Flush()
         threadLock.release()
@@ -77,3 +77,10 @@ for i in range(number_of_threads):
 for t in threads:
     t.join()
 
+print("final save")
+fout = snap.TFOut("test-with-tweets-new.graph")
+Twitter.Save(fout)
+fout.Flush()
+print("saved")
+
+print("Tsucee")
