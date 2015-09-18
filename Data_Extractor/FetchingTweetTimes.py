@@ -6,7 +6,7 @@ import snap
 from db_connector import DbConnection
 
 
-FIn = snap.TFIn("test-with-tweets-new.graph")
+FIn = snap.TFIn("../test-with-tweets-new.graph")
 Twitter = snap.TNEANet.Load(FIn)
 """
 :type Twitter:snap.TNEANet
@@ -42,7 +42,7 @@ def extract_tweets(thread_id, cur):
     if start_point_id % 100000000 is 0 and (start_point_id != 0):
         print('========thread %d is saving the graph up to tweet_id %d==========' % (thread_id, start_point_id))
         threadLock.acquire()
-        fout = snap.TFOut("test-with-tweets-new.graph")
+        fout = snap.TFOut("../test-with-tweets-new.graph")
         Twitter.Save(fout)
         fout.Flush()
         threadLock.release()
@@ -89,7 +89,7 @@ for t in threads:
     t.join()
 
 print("final save")
-Fout = snap.TFOut("test-with-tweets-new.graph")
+Fout = snap.TFOut("../test-with-tweets-new.graph")
 Twitter.Save(Fout)
 Fout.Flush()
 print("saved")
