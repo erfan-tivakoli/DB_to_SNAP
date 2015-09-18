@@ -70,7 +70,7 @@ threadID = 0
 chunk_size = 1000000
 
 # start_point = 0
-start_point = 1100000000
+start_point = 1200000000
 queueLock.acquire()
 while start_point < 4382219473:
     start_points.put(start_point)
