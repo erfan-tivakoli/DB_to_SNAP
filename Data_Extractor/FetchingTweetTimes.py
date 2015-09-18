@@ -1,9 +1,12 @@
-import snap
 import threading
 import Queue
-from db_connector import DbConnection
 
-FIn = snap.TFIn("test.graph")
+import snap
+
+from Data_Extractor.db_connector import DbConnection
+
+
+FIn = snap.TFIn("test-with-tweets-new.graph")
 Twitter = snap.TNEANet.Load(FIn)
 """
 :type Twitter:snap.TNEANet
@@ -24,13 +27,20 @@ def extract_tweets(thread_id, cur):
         threadLock.acquire()
         if Twitter.IsNode(userid):
             node_tweet_times = Twitter.GetStrAttrDatN(userid, "TweetsTime")
-            Twitter.AddStrAttrDatN(userid, node_tweet_times+","+str(long(tweettime.strftime('%s'))), "TweetsTime")
+            """
+            :type node_tweet_times:string
+            """
+            new_tweet_time = str(long(tweettime.strftime('%s')))
+            if not (node_tweet_times.split(",")).__contains__(new_tweet_time):
+                Twitter.AddStrAttrDatN(userid, node_tweet_times+","+new_tweet_time, "TweetsTime")
+            else:
+                print("TwittTime %d is already in the list of userid %d , the startId was " % (new_tweet_time, userid, start_point_id))
             threadLock.release()
         else:
             threadLock.release()
             # print("missing userid %d" % userid)
     if start_point_id % 100000000 is 0 and (start_point_id != 0):
-        print('thread %d is saving the graph up to tweet_id %d=========================' % (start_point_id,thread_id))
+        print('========thread %d is saving the graph up to tweet_id %d==========' % (thread_id, start_point_id))
         threadLock.acquire()
         fout = snap.TFOut("test-with-tweets-new.graph")
         Twitter.Save(fout)
@@ -59,7 +69,8 @@ number_of_threads = 10
 threadID = 0
 chunk_size = 1000000
 
-start_point = 0
+# start_point = 0
+start_point = 1100000000
 queueLock.acquire()
 while start_point < 4382219473:
     start_points.put(start_point)
@@ -78,9 +89,9 @@ for t in threads:
     t.join()
 
 print("final save")
-fout = snap.TFOut("test-with-tweets-new.graph")
-Twitter.Save(fout)
-fout.Flush()
+Fout = snap.TFOut("test-with-tweets-new.graph")
+Twitter.Save(Fout)
+Fout.Flush()
 print("saved")
 
 print("Tsucee")
