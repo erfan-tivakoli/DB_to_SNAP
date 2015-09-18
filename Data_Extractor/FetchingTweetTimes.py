@@ -35,6 +35,7 @@ def extract_tweets(thread_id, cur):
                 Twitter.AddStrAttrDatN(userid, node_tweet_times+","+new_tweet_time, "TweetsTime")
             else:
                  print("TwittTime %s is already in the list of userid %d , the startId was %d " % (new_tweet_time, userid, start_point_id))
+                 print("TweetTimes is: %s" % Twitter.GetStrAttrDatN(userid, "TweetsTime"))
 
             threadLock.release()
         else:
