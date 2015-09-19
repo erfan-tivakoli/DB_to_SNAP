@@ -64,7 +64,7 @@ number_of_threads = 20
 threadID = 0
 chunk_size = 1000000
 
-start_point = 0
+start_point = 1200000000
 # start_point = 1700000000
 queueLock.acquire()
 while start_point < 4382219473:
