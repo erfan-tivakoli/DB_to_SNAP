@@ -22,8 +22,9 @@ def extract_tweets(thread_id, cur):
 
     query = """select userid, tweettime from tweets where tweetid between %s and %s"""
     cur.execute(query, (start_point_id, start_point_id + chunk_size - 1))
+    rows = cur.fetchall()
     print('thread %d has fetched data from %d to %d' % (thread_id, start_point_id, start_point_id + chunk_size -1))
-    for [userid, tweettime] in cur:
+    for [userid, tweettime] in rows:
         threadLock.acquire()
         if Twitter.IsNode(userid):
             node_tweet_times = Twitter.GetStrAttrDatN(userid, "TweetsTime")
@@ -34,7 +35,7 @@ def extract_tweets(thread_id, cur):
             Twitter.AddStrAttrDatN(userid, node_tweet_times+","+new_tweet_time, "TweetsTime")
         threadLock.release()
 
-    if start_point_id % 100000000 is 0 and (start_point_id != start_point):
+    if start_point_id % 100000000 is 0 and (start_point_id != intial_value):
         print('========thread %d is saving the graph up to tweet_id %d==========' % (thread_id, start_point_id+ chunk_size))
         threadLock.acquire()
         fout = snap.TFOut("../test-with-tweets.graph")
@@ -64,7 +65,8 @@ number_of_threads = 20
 threadID = 0
 chunk_size = 1000000
 
-start_point = 1200000000
+start_point = 1600000000
+intial_value = start_point
 # start_point = 1700000000
 queueLock.acquire()
 while start_point < 4382219473:
