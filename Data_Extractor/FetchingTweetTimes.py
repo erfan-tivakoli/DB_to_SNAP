@@ -31,20 +31,13 @@ def extract_tweets(thread_id, cur):
             :type node_tweet_times:string
             """
             new_tweet_time = str(long(tweettime.strftime('%s')))
-            if not (node_tweet_times.split(",")).__contains__(new_tweet_time):
-                Twitter.AddStrAttrDatN(userid, node_tweet_times+","+new_tweet_time, "TweetsTime")
-            else:
-                 print("TwittTime %s is already in the list of userid %d , the startId was %d " % (new_tweet_time, userid, start_point_id))
-                 print("TweetTimes is: %s" % Twitter.GetStrAttrDatN(userid, "TweetsTime"))
+            Twitter.AddStrAttrDatN(userid, node_tweet_times+","+new_tweet_time, "TweetsTime")
+        threadLock.release()
 
-            threadLock.release()
-        else:
-            threadLock.release()
-            # print("missing userid %d" % userid)
     if start_point_id % 100000000 is 0 and (start_point_id != start_point):
-        print('========thread %d is saving the graph up to tweet_id %d==========' % (thread_id, start_point_id))
+        print('========thread %d is saving the graph up to tweet_id %d==========' % (thread_id, start_point_id+ chunk_size))
         threadLock.acquire()
-        fout = snap.TFOut("../test-with-tweets-new-1.graph")
+        fout = snap.TFOut("../test-with-tweets.graph")
         Twitter.Save(fout)
         fout.Flush()
         threadLock.release()
@@ -67,7 +60,7 @@ start_points = Queue.Queue(50000)
 threadLock = threading.Lock()
 queueLock = threading.Lock()
 threads = []
-number_of_threads = 10
+number_of_threads = 20
 threadID = 0
 chunk_size = 1000000
 
@@ -91,7 +84,7 @@ for t in threads:
     t.join()
 
 print("final save")
-Fout = snap.TFOut("../test-with-tweets-new-1.graph")
+Fout = snap.TFOut("../test-with-tweets.graph")
 Twitter.Save(Fout)
 Fout.Flush()
 print("saved")
