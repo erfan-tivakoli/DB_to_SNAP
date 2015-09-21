@@ -6,13 +6,13 @@ import snap
 from db_connector import DbConnection
 
 
-FIn = snap.TFIn("../test.graph")
+FIn = snap.TFIn("../test-with-tweets.graph")
 Twitter = snap.TNEANet.Load(FIn)
 """
 :type Twitter:snap.TNEANet
 """
 print("the graph was loaded")
-Twitter.AddStrAttrN("TweetsTime")
+# Twitter.AddStrAttrN("TweetsTime")
 
 
 def extract_tweets(thread_id, cur):
@@ -35,7 +35,7 @@ def extract_tweets(thread_id, cur):
             Twitter.AddStrAttrDatN(userid, node_tweet_times+","+new_tweet_time, "TweetsTime")
         threadLock.release()
 
-    if start_point_id % 100000000 is 0 and (start_point_id != intial_value):
+    if start_point_id % 100000000 is 0 and (start_point_id != initial_value):
         print('========thread %d is saving the graph up to tweet_id %d==========' % (thread_id, start_point_id+ chunk_size))
         threadLock.acquire()
         fout = snap.TFOut("../test-with-tweets.graph")
@@ -65,8 +65,8 @@ number_of_threads = 20
 threadID = 0
 chunk_size = 1000000
 
-start_point = 0
-intial_value = start_point
+start_point = 120000000
+initial_value = start_point
 # start_point = 1700000000
 queueLock.acquire()
 while start_point < 4382219473:
