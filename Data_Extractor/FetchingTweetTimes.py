@@ -6,7 +6,7 @@ import snap
 from db_connector import DbConnection
 
 
-FIn = snap.TFIn("../test-with-tweets.graph")
+FIn = snap.TFIn("../test.graph")
 Twitter = snap.TNEANet.Load(FIn)
 """
 :type Twitter:snap.TNEANet
