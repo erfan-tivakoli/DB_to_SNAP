@@ -1,21 +1,19 @@
-import psycopg2
+import sqlite3
+
 
 class DbConnection:
     def __init__(self):
-        self.con = psycopg2.connect(host='postgresql01.mpi-sws.org',
-                                    database='twitter',
-                                    user='twitter',
-                                    password='tweet@84')
+        self.con = sqlite3.connect(':memory:')
+        cur = self.con.cursor()
+        cur.execute('attach database "/dev/shm/db.sqlite3" as db;')
+        cur.execute('attach database "/dev/shm/links.sqlite3" as li;')
+        cur.close()
 
     def __del__(self):
         self.close()
 
     def get_cursor(self):
-        try:
-            cur = self.con.cursor()
-            return cur
-        except psycopg2.DatabaseError, e:
-            raise RuntimeError('Database Error %s' % e)
+        return self.con.cursor()
 
     def close(self):
         if self.con:
