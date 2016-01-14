@@ -16,10 +16,26 @@ class GraphStructureBuilder:
     def fetch_add_links(self):
         counter = 0
         cur = self._conn.get_cursor()
-        print 'started fetching'
-        links = cur.execute('select ida,idb from li.links').fetchall()
-        print 'finished fetching'
 
+        max_ida = cur.execute("""select max(ida) from links""").fetchone()[0]
+        max_idb = cur.execute("""select max(idb) from links""").fetchone()[0]
+
+        total_users = max(max_ida, max_idb)
+        print("total user is %s " % (total_users))
+
+        chunk = total_users / 10
+        from_id = 0
+
+        links = []
+
+        while from_id < total_users:
+            print 'started fetching from %d to %d' % (from_id, from_id + chunk)
+            links += cur.execute('select ida,idb from li.links where from_id <= ida < to_id').fetchall()
+            print 'now links size is : %d' %len(links)
+            from_id += chunk
+
+
+        print 'started to build the links'
         for ida, idb in links:
             self.add_edge(ida, idb)
             counter += 1
