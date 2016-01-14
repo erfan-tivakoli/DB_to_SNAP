@@ -23,17 +23,17 @@ class GraphStructureBuilder:
         total_users = max(max_ida, max_idb)
         print("total user is %s " % (total_users))
 
-        chunk = total_users / 10
+        chunk = int(total_users / 10)
         from_id = 0
 
         links = []
 
         while from_id < total_users:
             print 'started fetching from %d to %d' % (from_id, from_id + chunk)
-            links += cur.execute('select ida,idb from li.links where from_id <= ida < to_id').fetchall()
-            print 'now links size is : %d' %len(links)
+            links += cur.execute('select ida,idb from li.links where ? <= ida < ?',
+                                 (from_id, from_id + chunk)).fetchall()
+            print 'now links size is : %d' % len(links)
             from_id += chunk
-
 
         print 'started to build the links'
         for ida, idb in links:
