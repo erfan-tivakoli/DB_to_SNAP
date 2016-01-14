@@ -23,7 +23,7 @@ class GraphStructureBuilder:
         total_users = max(max_ida, max_idb)
         print("total user is %s " % (total_users))
 
-        chunk = int(total_users / 10)
+        chunk = int(total_users / 70)
         from_id = 0
 
         links = []
