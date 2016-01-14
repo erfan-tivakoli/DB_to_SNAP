@@ -5,7 +5,7 @@ import snap
 
 
 def main():
-    conn = DbConnection
+    conn = DbConnection()
     graph_builder = GraphStructureBuilder(conn)
     graph_builder.fetch_add_links()
     structured_graph = graph_builder.get_graph()

@@ -7,7 +7,7 @@ import sys
 class GraphStructureBuilder:
     def __init__(self, conn):
         self._conn = conn
-        self._graph = snap.TNEANet.new()
+        self._graph = snap.TNEANet.New()
         """
         :type graph: snap.TNEANet
         """
@@ -15,7 +15,7 @@ class GraphStructureBuilder:
 
     def fetch_add_links(self):
         counter = 0
-        cur = self._conn
+        cur = self._conn.get_cursor()
         links = cur.execute('select ida,idb from li.links').fetchall()
         for ida, idb in links:
             self.add_edge(ida, idb)
