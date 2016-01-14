@@ -29,10 +29,11 @@ class GraphStructureBuilder:
         links = []
 
         while from_id < total_users:
-            print 'started fetching for %d ' % (from_id)
             links += cur.execute('select ida,idb from li.links where ida = ?',
                                  (from_id,)).fetchall()
-            print 'now links size is : %d' % len(links)
+            if from_id%1000 == 0:
+                print 'started fetching for %d ' % (from_id)
+                print 'now links size is : %d' % len(links)
             from_id += chunk
 
         print 'started to build the links'
