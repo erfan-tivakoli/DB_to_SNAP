@@ -16,7 +16,10 @@ class GraphStructureBuilder:
     def fetch_add_links(self):
         counter = 0
         cur = self._conn.get_cursor()
+        print 'started fetching'
         links = cur.execute('select ida,idb from li.links').fetchall()
+        print 'finished fetching'
+
         for ida, idb in links:
             self.add_edge(ida, idb)
             counter += 1
@@ -26,7 +29,6 @@ class GraphStructureBuilder:
 
     def add_edge(self, src_id, dst_id):
         """
-        :param graph:
         :param src_id:
         :param dst_id:
         :return:
