@@ -56,8 +56,9 @@ class GraphStructureBuilder:
         if not self._graph.IsNode(dst_id):
             self._graph.AddNode(dst_id)
         try:
-            if not self._graph.IsEdge(src_id, dst_id):
-                self._graph.AddEdge(src_id, dst_id)
+            result = self._graph.AddEdge(src_id, dst_id)
+            if result > 0:
+                print 'duplicate result in %d -> %d' % (src_id, dst_id)
         except RuntimeError, e:
             sys.stderr.write('problem in adding %d -> %d' % (src_id, dst_id))
 
