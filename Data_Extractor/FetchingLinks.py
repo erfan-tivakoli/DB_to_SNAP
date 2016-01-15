@@ -31,16 +31,18 @@ class GraphStructureBuilder:
         while from_id < total_users:
             links += cur.execute('select ida,idb from li.links where ida = ?',
                                  (from_id,)).fetchall()
-            if from_id%100000 == 0:
+            if from_id % 100000 == 0:
                 print 'started fetching for %d ' % (from_id)
                 print 'now links size is : %d' % len(links)
             from_id += chunk
+
+        cur.close()
 
         print 'started to build the links'
         for ida, idb in links:
             self.add_edge(ida, idb)
             counter += 1
-            if counter % 1000000 is 0:
+            if counter % 100000 is 0:
                 print counter
 
 
