@@ -1,4 +1,5 @@
 from __future__ import division
+import pickle
 
 import snap
 import sys
@@ -37,6 +38,9 @@ class GraphStructureBuilder:
 
         cur.close()
 
+        with open('links.pkl', 'wb') as links_pickle:
+            pickle.dump(links, links_pickle)
+
         print 'started to build the links'
         for ida, idb in links:
             self.add_edge(ida, idb)
@@ -58,7 +62,9 @@ class GraphStructureBuilder:
         try:
             self._graph.AddEdge(src_id, dst_id)
         except RuntimeError, e:
-            sys.stderr.write('problem in adding %d -> %d' % (src_id, dst_id))
+            sys.stderr.write(e.message)
+            sys.stderr.write('problem in adding %d -> %d \n' % (src_id, dst_id))
+            sys.stderr.write('\n')
 
     def get_graph(self):
         return self._graph
