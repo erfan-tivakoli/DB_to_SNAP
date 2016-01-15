@@ -38,9 +38,11 @@ class GraphStructureBuilder:
 
         cur.close()
 
+        print 'started pickling'
         with open('links.pkl', 'wb') as links_pickle:
             pickle.dump(links, links_pickle)
-
+        print 'finished pickling'
+        
         print 'started to build the links'
         for ida, idb in links:
             self.add_edge(ida, idb)
