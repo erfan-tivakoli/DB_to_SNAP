@@ -1,5 +1,4 @@
 from __future__ import division
-import pickle
 
 import snap
 import sys
@@ -9,12 +8,13 @@ class GraphStructureBuilder:
     def __init__(self, conn):
         self._conn = conn
         self._graph = snap.TNEANet.New()
+        self._links = []
         """
         :type graph: snap.TNEANet
         """
 
 
-    def fetch_add_links(self):
+    def fetch(self):
         counter = 0
         cur = self._conn.get_cursor()
         max_ida = cur.execute("""select max(ida) from links""").fetchone()[0]
@@ -26,25 +26,22 @@ class GraphStructureBuilder:
         chunk = 1
         from_id = 0
 
-        links = []
-
         while from_id < total_users:
-            links += cur.execute('select ida,idb from li.links where ida = ?',
-                                 (from_id,)).fetchall()
+            self._links += cur.execute('select ida,idb from li.links where ida = ?',
+                                       (from_id,)).fetchall()
             if from_id % 100000 == 0:
                 print 'started fetching for %d ' % (from_id)
-                print 'now links size is : %d' % len(links)
+                print 'now links size is : %d' % len(self._links)
             from_id += chunk
 
         cur.close()
 
-        print 'started pickling'
-        with open('links.pkl', 'wb') as links_pickle:
-            pickle.dump(links, links_pickle)
-        print 'finished pickling'
-        
+
+    def build_links(self):
+
+        counter = 0
         print 'started to build the links'
-        for ida, idb in links:
+        for ida, idb in self._links:
             self.add_edge(ida, idb)
             counter += 1
             if counter % 100000 is 0:
@@ -70,3 +67,6 @@ class GraphStructureBuilder:
 
     def get_graph(self):
         return self._graph
+
+    def get_links(self):
+        return self._links
