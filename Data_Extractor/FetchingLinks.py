@@ -8,6 +8,7 @@ class GraphStructureBuilder:
         self._conn = conn
         self._graph = snap.TNEANet.New()
         self._links = []
+        self._missed_links = 0
         """
         :type graph: snap.TNEANet
         """
@@ -63,6 +64,8 @@ class GraphStructureBuilder:
             sys.stderr.write(e.message)
             sys.stderr.write('\n')
             sys.stderr.write('problem in adding %d -> %d \n' % (src_id, dst_id))
+            self._missed_links += 1
+            sys.stderr.write('number of missed links %d' %self._missed_links)
             sys.stderr.write('============ \n')
 
     def get_graph(self):

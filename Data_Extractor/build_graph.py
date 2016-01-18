@@ -13,7 +13,7 @@ def main():
 
     # saving the graph to a file
     FOut = snap.TFOut("structured_graph.graph")
-    structured_graph.save(FOut)
+    structured_graph.Save(FOut)
     FOut.Flush()
 
     print 'structred graph was saved'
